@@ -13,7 +13,12 @@ public class Hospital {
     private ArrayList<Paramedic> paramedics = null;
     private ArrayList<Ambulance> ambulances = null;
 
-    public Hospital() {
+    public Hospital(String name, String address, String ranking, int maxParamedicCapacity, int maxAmbulanceCapacity) {
+        this.name = name;
+        this.address = address;
+        this.ranking = ranking;
+        this.maxParamedicCapacity = maxParamedicCapacity;
+        this.maxAmbulanceCapacity = maxAmbulanceCapacity;
     }
 
     public String getName() {
@@ -70,5 +75,10 @@ public class Hospital {
 
     public void setAmbulances(ArrayList<Ambulance> ambulances) {
         this.ambulances = ambulances;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

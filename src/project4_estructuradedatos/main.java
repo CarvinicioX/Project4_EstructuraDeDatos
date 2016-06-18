@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package project4_estructuradedatos;
+
+import edu.uci.ics.jung.graph.UndirectedGraph;
+import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 
 /**
  *
@@ -11,11 +9,17 @@ package project4_estructuradedatos;
  */
 public class main extends javax.swing.JFrame {
 
+    UndirectedGraph<Hospital, Integer> Map = new UndirectedSparseGraph<Hospital, Integer>();
+
     /**
      * Creates new form main
      */
     public main() {
         initComponents();
+        Map.addVertex(new Hospital("Hospital San Jorge", "Col. Rio Grande", "A", 10, 15));
+        Map.addVertex(new Hospital("Hospital San Juan", "Col. Satelite", "A", 10, 15));
+        Map.addEdge(100, (Hospital) Map.getVertices().toArray()[0], (Hospital) Map.getVertices().toArray()[1]);
+        System.out.println(Map);
     }
 
     /**
