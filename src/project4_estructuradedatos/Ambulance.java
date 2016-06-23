@@ -1,13 +1,16 @@
 package project4_estructuradedatos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Vinicio
  */
-public class Ambulance {
+public class Ambulance implements Serializable {
 
     private String plate = "";
     private int year = 0, maxVelocity = 0;
+    private boolean available = true;
 
     public Ambulance(String plate, int year, int maxVelocity) {
         this.plate = plate;
@@ -37,5 +40,13 @@ public class Ambulance {
 
     public void setMaxVelocity(int maxVelocity) {
         this.maxVelocity = maxVelocity;
+    }
+
+    public void work(boolean available) {
+        this.available = available;
+    }
+
+    public boolean isWorking() {
+        return available;
     }
 }

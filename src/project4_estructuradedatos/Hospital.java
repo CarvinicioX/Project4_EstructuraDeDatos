@@ -1,32 +1,27 @@
 package project4_estructuradedatos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Vinicio
  */
-public class Hospital {
+public class Hospital extends Location implements Serializable {
 
-    private String name = "", address = "", ranking = "";
+    private String address = "", ranking = "";
     private int maxParamedicCapacity = 0, maxAmbulanceCapacity = 0;
     private ArrayList<Paramedic> paramedics = null;
     private ArrayList<Ambulance> ambulances = null;
 
     public Hospital(String name, String address, String ranking, int maxParamedicCapacity, int maxAmbulanceCapacity) {
-        this.name = name;
+        super(name);
         this.address = address;
         this.ranking = ranking;
         this.maxParamedicCapacity = maxParamedicCapacity;
         this.maxAmbulanceCapacity = maxAmbulanceCapacity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        paramedics = new ArrayList();
+        ambulances = new ArrayList();
     }
 
     public String getAddress() {
@@ -75,10 +70,5 @@ public class Hospital {
 
     public void setAmbulances(ArrayList<Ambulance> ambulances) {
         this.ambulances = ambulances;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

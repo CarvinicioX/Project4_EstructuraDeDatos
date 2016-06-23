@@ -1,7 +1,25 @@
 package project4_estructuradedatos;
 
+import edu.uci.ics.jung.algorithms.layout.KKLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.UndirectedGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import java.awt.Dimension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -9,17 +27,16 @@ import edu.uci.ics.jung.graph.UndirectedSparseGraph;
  */
 public class main extends javax.swing.JFrame {
 
-    UndirectedGraph<Hospital, Integer> Map = new UndirectedSparseGraph<Hospital, Integer>();
+    UndirectedGraph<Location, Length> Map = new UndirectedSparseGraph<>();
+    ArrayList<Location> Vertexs = new ArrayList<>();
+    ArrayList<Length> Edges = new ArrayList<>();
+    int Cont = 0;
 
     /**
      * Creates new form main
      */
     public main() {
         initComponents();
-        Map.addVertex(new Hospital("Hospital San Jorge", "Col. Rio Grande", "A", 10, 15));
-        Map.addVertex(new Hospital("Hospital San Juan", "Col. Satelite", "A", 10, 15));
-        Map.addEdge(100, (Hospital) Map.getVertices().toArray()[0], (Hospital) Map.getVertices().toArray()[1]);
-        System.out.println(Map);
     }
 
     /**
@@ -31,21 +48,784 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        nodeAddDialog = new javax.swing.JDialog();
+        nodeAddType = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        nodeAddName = new javax.swing.JTextField();
+        nodeAddDirection = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        nodeAddMaxParamedicCapacity = new javax.swing.JSpinner();
+        nodeAddMaxAmbulanceCapacity = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        nodeDeleteDialog = new javax.swing.JDialog();
+        nodeDeleteNode = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        edgeAddDialog = new javax.swing.JDialog();
+        edgeAddNodeA = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        edgeAddNodeB = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
+        edgeAddLength = new javax.swing.JSpinner();
+        paramedicAddDialog = new javax.swing.JDialog();
+        paramedicAddName = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        paramedicAddRanking = new javax.swing.JComboBox<>();
+        paramedicAddAge = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        paramedicAddNode = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        paramedicAddId = new javax.swing.JFormattedTextField();
+        paramedicModifyDialog = new javax.swing.JDialog();
+        paramedicModifyThis = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        paramedicModifyNode = new javax.swing.JComboBox<>();
+        jButton5 = new javax.swing.JButton();
+        ambulanceAddDialog = new javax.swing.JDialog();
+        ambulanceModifyDialog = new javax.swing.JDialog();
+        ambulanceDeleteDialog = new javax.swing.JDialog();
+        background = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+
+        nodeAddType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Complejo Hospitalario", "Locación" }));
+        nodeAddType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                nodeAddTypeItemStateChanged(evt);
+            }
+        });
+
+        jLabel1.setText("Tipo");
+
+        jLabel2.setText("Nombre");
+
+        jLabel3.setText("Dirección");
+
+        nodeAddMaxParamedicCapacity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
+
+        nodeAddMaxAmbulanceCapacity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+
+        jLabel4.setText("Capacidad Max. de Paramedicos");
+
+        jLabel5.setText("Capacidad Max. de Ambulancias");
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout nodeAddDialogLayout = new javax.swing.GroupLayout(nodeAddDialog.getContentPane());
+        nodeAddDialog.getContentPane().setLayout(nodeAddDialogLayout);
+        nodeAddDialogLayout.setHorizontalGroup(
+            nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nodeAddDialogLayout.createSequentialGroup()
+                .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(nodeAddDialogLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nodeAddMaxAmbulanceCapacity)
+                            .addComponent(nodeAddMaxParamedicCapacity)
+                            .addComponent(nodeAddDirection)
+                            .addComponent(nodeAddName)
+                            .addComponent(nodeAddType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(nodeAddDialogLayout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        nodeAddDialogLayout.setVerticalGroup(
+            nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nodeAddDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(nodeAddType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nodeAddName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nodeAddDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nodeAddMaxParamedicCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nodeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nodeAddMaxAmbulanceCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel6.setText("Lugar a Destruir");
+
+        jButton2.setText("Destruir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout nodeDeleteDialogLayout = new javax.swing.GroupLayout(nodeDeleteDialog.getContentPane());
+        nodeDeleteDialog.getContentPane().setLayout(nodeDeleteDialogLayout);
+        nodeDeleteDialogLayout.setHorizontalGroup(
+            nodeDeleteDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nodeDeleteDialogLayout.createSequentialGroup()
+                .addGroup(nodeDeleteDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(nodeDeleteDialogLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nodeDeleteNode, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(nodeDeleteDialogLayout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(jButton2)))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+        nodeDeleteDialogLayout.setVerticalGroup(
+            nodeDeleteDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nodeDeleteDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(nodeDeleteDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(nodeDeleteNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel12.setText("Locación A");
+
+        jLabel13.setText("Distancia (Km)");
+
+        jLabel14.setText("Locación B");
+
+        jButton4.setText("Guardar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        edgeAddLength.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        javax.swing.GroupLayout edgeAddDialogLayout = new javax.swing.GroupLayout(edgeAddDialog.getContentPane());
+        edgeAddDialog.getContentPane().setLayout(edgeAddDialogLayout);
+        edgeAddDialogLayout.setHorizontalGroup(
+            edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                                .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel13))
+                                .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(edgeAddNodeA, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(edgeAddLength))))
+                            .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(edgeAddNodeB, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(jButton4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        edgeAddDialogLayout.setVerticalGroup(
+            edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(edgeAddDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(edgeAddNodeA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(edgeAddLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(edgeAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14)
+                    .addComponent(edgeAddNodeB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel7.setText("Nombre");
+
+        jLabel8.setText("# deIdentidad");
+
+        jLabel9.setText("Ranking");
+
+        paramedicAddRanking.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "C", "D" }));
+
+        paramedicAddAge.setModel(new javax.swing.SpinnerNumberModel(18, 18, 60, 1));
+
+        jLabel10.setText("Edad");
+
+        jLabel11.setText("Afiliación Hospitalaria");
+
+        jButton3.setText("Guardar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        try {
+            paramedicAddId.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####-#####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        javax.swing.GroupLayout paramedicAddDialogLayout = new javax.swing.GroupLayout(paramedicAddDialog.getContentPane());
+        paramedicAddDialog.getContentPane().setLayout(paramedicAddDialogLayout);
+        paramedicAddDialogLayout.setHorizontalGroup(
+            paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paramedicAddDialogLayout.createSequentialGroup()
+                .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paramedicAddDialogLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addGap(18, 18, 18)
+                        .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(paramedicAddRanking, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(paramedicAddName)
+                            .addComponent(paramedicAddNode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(paramedicAddAge, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(paramedicAddId)))
+                    .addGroup(paramedicAddDialogLayout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(jButton3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        paramedicAddDialogLayout.setVerticalGroup(
+            paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paramedicAddDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paramedicAddName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(paramedicAddId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(paramedicAddRanking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paramedicAddAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(paramedicAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11)
+                    .addComponent(paramedicAddNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        paramedicModifyThis.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                paramedicModifyThisItemStateChanged(evt);
+            }
+        });
+
+        jLabel15.setText("Paramedico");
+
+        jLabel16.setText("Afiliación Hospitalaria");
+
+        jButton5.setText("Guardar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout paramedicModifyDialogLayout = new javax.swing.GroupLayout(paramedicModifyDialog.getContentPane());
+        paramedicModifyDialog.getContentPane().setLayout(paramedicModifyDialogLayout);
+        paramedicModifyDialogLayout.setHorizontalGroup(
+            paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paramedicModifyDialogLayout.createSequentialGroup()
+                .addGroup(paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paramedicModifyDialogLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel15))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(paramedicModifyThis, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(paramedicModifyNode, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(paramedicModifyDialogLayout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(jButton5)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        paramedicModifyDialogLayout.setVerticalGroup(
+            paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paramedicModifyDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15)
+                    .addComponent(paramedicModifyThis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(paramedicModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel16)
+                    .addComponent(paramedicModifyNode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout ambulanceAddDialogLayout = new javax.swing.GroupLayout(ambulanceAddDialog.getContentPane());
+        ambulanceAddDialog.getContentPane().setLayout(ambulanceAddDialogLayout);
+        ambulanceAddDialogLayout.setHorizontalGroup(
+            ambulanceAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        ambulanceAddDialogLayout.setVerticalGroup(
+            ambulanceAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout ambulanceModifyDialogLayout = new javax.swing.GroupLayout(ambulanceModifyDialog.getContentPane());
+        ambulanceModifyDialog.getContentPane().setLayout(ambulanceModifyDialogLayout);
+        ambulanceModifyDialogLayout.setHorizontalGroup(
+            ambulanceModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        ambulanceModifyDialogLayout.setVerticalGroup(
+            ambulanceModifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout ambulanceDeleteDialogLayout = new javax.swing.GroupLayout(ambulanceDeleteDialog.getContentPane());
+        ambulanceDeleteDialog.getContentPane().setLayout(ambulanceDeleteDialogLayout);
+        ambulanceDeleteDialogLayout.setHorizontalGroup(
+            ambulanceDeleteDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        ambulanceDeleteDialogLayout.setVerticalGroup(
+            ambulanceDeleteDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("eHospital");
+        setIconImages(null);
+        setResizable(false);
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project4_estructuradedatos/background.png"))); // NOI18N
+
+        jMenu1.setText("Ubicación");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Agregar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Eliminar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu5.setText("Calles");
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem7.setText("Agregar");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu2.setText("Paramedicos");
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setText("Agregar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem8.setText("Modificar");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Ambulancias");
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setText("Agregar");
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_7, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setText("Eliminar");
+        jMenu3.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Mapa");
+
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_8, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setText("Visualizar");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu4);
+
+        jMenu6.setText("Archivo");
+
+        jMenuItem9.setText("Cargar");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem9);
+
+        jMenuItem10.setText("Archivar");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem10);
+
+        jMenuBar1.add(jMenu6);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        int x, y;
+        while (true) {
+            try {
+                String Hello = JOptionPane.showInputDialog(this, "Ingrese La Resolución Deseada(Separada por una \",\")", "Ingrese Por Favor");
+                x = Integer.parseInt(Hello.split(",")[0]);
+                y = Integer.parseInt(Hello.split(",")[1]);
+                break;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Ingrese de Nuevo", "Error de Capa 8", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        paintGraph(this.Map, x, y);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.nodeAddDialog.pack();
+        this.nodeAddDialog.setModal(true);
+        this.nodeAddDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void nodeAddTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nodeAddTypeItemStateChanged
+        if (this.nodeAddType.getSelectedIndex() == 0) {
+            this.nodeAddDirection.setEnabled(true);
+            this.nodeAddMaxAmbulanceCapacity.setEnabled(true);
+            this.nodeAddMaxParamedicCapacity.setEnabled(true);
+        } else {
+            this.nodeAddDirection.setEnabled(false);
+            this.nodeAddMaxAmbulanceCapacity.setEnabled(false);
+            this.nodeAddMaxParamedicCapacity.setEnabled(false);
+        }
+    }//GEN-LAST:event_nodeAddTypeItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        boolean yeah = false;
+        for (int i = 0; i < Map.getVertices().size(); i++) {
+            try {
+                if (((Location) Map.getVertices().toArray()[i]).getName().equals(this.nodeAddName.getText())) {
+                    yeah = true;
+                    break;
+                }
+            } catch (NullPointerException ex) {
+            }
+        }
+        if (yeah) {
+            JOptionPane.showMessageDialog(this.nodeAddDialog, "Ese Complejo ya Existe", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (!this.nodeAddName.getText().isEmpty() || (this.nodeAddDirection.getText().isEmpty() && (this.nodeAddType.getSelectedIndex() == 1))) {
+            Location tmp;
+            if (this.nodeAddType.getSelectedIndex() == 0) {
+                tmp = new Hospital(this.nodeAddName.getText(), this.nodeAddDirection.getText(), this.nodeAddType.getSelectedItem().toString(), Integer.parseInt(this.nodeAddMaxParamedicCapacity.getValue().toString()), Integer.parseInt(this.nodeAddMaxAmbulanceCapacity.getValue().toString()));
+            } else {
+                tmp = new Location(this.nodeAddName.getText());
+            }
+            Map.addVertex(tmp);
+            Vertexs.add(tmp);
+            this.nodeAddName.setText("");
+            this.nodeAddDirection.setText("");
+            this.nodeAddType.setSelectedIndex(0);
+            this.nodeAddMaxAmbulanceCapacity.setValue(1);
+            this.nodeAddMaxParamedicCapacity.setValue(1);
+            this.nodeAddDialog.setModal(false);
+            this.nodeAddDialog.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this.nodeAddDialog, "Hay un Campo Vacio", "Error de Capa 8", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.nodeDeleteNode.setModel(new DefaultComboBoxModel());
+        for (Object toArray : this.Map.getVertices().toArray()) {
+            this.nodeDeleteNode.addItem(toArray.toString());
+        }
+        this.nodeDeleteDialog.pack();
+        this.nodeDeleteDialog.setModal(true);
+        this.nodeDeleteDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Map.removeVertex(this.Vertexs.remove(this.nodeDeleteNode.getSelectedIndex()));
+        this.nodeDeleteDialog.setModal(false);
+        this.nodeDeleteDialog.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        this.paramedicAddNode.setModel(new DefaultComboBoxModel());
+        for (int i = 0; i < Vertexs.size(); i++) {
+            this.paramedicAddNode.addItem(Vertexs.get(i).toString());
+        }
+        this.paramedicAddDialog.pack();
+        this.paramedicAddDialog.setModal(true);
+        this.paramedicAddDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (!this.paramedicAddName.getText().equals("") && !this.paramedicAddId.getText().contains(" ")) {
+
+        } else {
+            JOptionPane.showMessageDialog(this.nodeAddDialog, "Hay un Campo Vacio", "Error de Capa 8", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (this.edgeAddNodeA.getSelectedIndex() == this.edgeAddNodeB.getSelectedIndex()) {
+            JOptionPane.showMessageDialog(this, "No se Puede Crear una Calle al Mismo Lugar", "Error de Capa 8", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Length tmp = new Length(Integer.parseInt(this.edgeAddLength.getValue().toString()), Vertexs.get(this.edgeAddNodeA.getSelectedIndex()), Vertexs.get(this.edgeAddNodeB.getSelectedIndex()));
+            Map.addEdge(tmp, Vertexs.get(this.edgeAddNodeA.getSelectedIndex()), Vertexs.get(this.edgeAddNodeB.getSelectedIndex()));
+            Edges.add(tmp);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        if (this.Vertexs.isEmpty()) {
+            JOptionPane.showMessageDialog(this.edgeAddDialog, "No se Pueden Crear Sin Locaciones", "Error de Capa 8", JOptionPane.ERROR_MESSAGE);
+        } else {
+            this.edgeAddNodeA.setModel(new DefaultComboBoxModel());
+            this.edgeAddNodeB.setModel(new DefaultComboBoxModel());
+            for (int i = 0; i < Vertexs.size(); i++) {
+                this.edgeAddNodeA.addItem(Vertexs.get(i).toString());
+                this.edgeAddNodeB.addItem(Vertexs.get(i).toString());
+            }
+            this.edgeAddDialog.pack();
+            this.edgeAddDialog.setModal(true);
+            this.edgeAddDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        JFileChooser JFC = new JFileChooser();
+        int Ok = JFC.showOpenDialog(this);
+        if (Ok == JFileChooser.APPROVE_OPTION) {
+            File tmp = JFC.getSelectedFile();
+            try {
+                FileInputStream FIS = new FileInputStream(tmp);
+                ObjectInputStream OIS = new ObjectInputStream(FIS);
+                Map = (UndirectedSparseGraph<Location, Length>) OIS.readObject();
+                OIS.close();
+                JOptionPane.showMessageDialog(this, "Se ha Cargado Exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        JFileChooser JFC = new JFileChooser();
+        int Ok = JFC.showSaveDialog(this);
+        if (Ok == JFileChooser.APPROVE_OPTION) {
+            File tmp = JFC.getSelectedFile();
+            try {
+                FileOutputStream FOS = new FileOutputStream(tmp);
+                ObjectOutputStream OOS = new ObjectOutputStream(FOS);
+                OOS.writeObject(Map);
+                OOS.close();
+                JOptionPane.showMessageDialog(this, "Se ha Guardado Exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void paramedicModifyThisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_paramedicModifyThisItemStateChanged
+        int Cont = 0;
+        for (int i = 0; i < Vertexs.size(); i++) {
+            if (Vertexs.get(i) instanceof Hospital) {
+                for (int j = 0; j < ((Hospital) Vertexs.get(i)).getParamedics().size(); j++) {
+                    if (!((Hospital) Vertexs.get(i)).getParamedics().get(j).getName().equals(this.paramedicModifyThis.getSelectedItem().toString())) {
+                        Cont++;
+                    } else {
+                        this.paramedicModifyNode.setSelectedIndex(i);
+                        return;
+                    }
+                }
+            }
+        }
+        this.Cont = Cont;
+    }//GEN-LAST:event_paramedicModifyThisItemStateChanged
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        if (rootPaneCheckingEnabled) {
+            JOptionPane.showMessageDialog(this, "No Hay Hospitales para Modificar Paramedicos", "Error de Capa 8", JOptionPane.ERROR_MESSAGE);
+        } else {
+            this.paramedicModifyThis.setModel(new DefaultComboBoxModel());
+            for (int i = 0; i < Vertexs.size(); i++) {
+                if (Vertexs.get(i) instanceof Hospital) {
+                    for (int j = 0; j < ((Hospital) Vertexs.get(i)).getParamedics().size(); j++) {
+                        this.paramedicModifyThis.addItem(((Hospital) Vertexs.get(i)).getParamedics().get(j).getName());
+                    }
+                }
+            }
+            this.paramedicModifyNode.setModel(new DefaultComboBoxModel());
+            for (int i = 0; i < Vertexs.size(); i++) {
+                this.paramedicModifyNode.addItem(Vertexs.get(i).getName());
+            }
+            this.paramedicModifyDialog.pack();
+            this.paramedicModifyDialog.setModal(true);
+            this.paramedicModifyDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int Cont = 0, Hosp = 0;
+        for (int i = 0; i < Vertexs.size(); i++) {
+            if (Vertexs.get(i) instanceof Hospital) {
+                for (int j = 0; j < ((Hospital) Vertexs.get(i)).getParamedics().size(); j++) {
+                    if (this.Cont == Cont) {
+                        for (int k = 0; k < Vertexs.size(); k++) {
+                            if (Vertexs.get(k) instanceof Hospital) {
+                                if (Vertexs.get(k).getName().equals(this.paramedicModifyNode.getSelectedItem().toString())) {
+                                    ((Hospital)Vertexs.get(k)).getParamedics().add(((Hospital)Vertexs.get(i)).getParamedics().remove(j));
+                                    return;
+                                } else {
+                                    Hosp++;
+                                }
+                            }
+                        }
+                    } else {
+                        Cont++;
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    public void paintGraph(UndirectedGraph<Location, Length> Map, int x, int y) {
+        Layout<Integer, String> layout = new KKLayout(Map);
+        layout.setSize(new Dimension(x, y));
+        VisualizationViewer<Integer, String> vv = new VisualizationViewer<Integer, String>(layout);
+        vv.setPreferredSize(new Dimension(700, 700));
+        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+        DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
+        gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+        vv.setGraphMouse(gm);
+        JFrame frame = new JFrame("Ciudad");
+        frame.getContentPane().add(vv);
+        frame.pack();
+        frame.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -83,5 +863,68 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog ambulanceAddDialog;
+    private javax.swing.JDialog ambulanceDeleteDialog;
+    private javax.swing.JDialog ambulanceModifyDialog;
+    private javax.swing.JLabel background;
+    private javax.swing.JDialog edgeAddDialog;
+    private javax.swing.JSpinner edgeAddLength;
+    private javax.swing.JComboBox<String> edgeAddNodeA;
+    private javax.swing.JComboBox<String> edgeAddNodeB;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JDialog nodeAddDialog;
+    private javax.swing.JTextField nodeAddDirection;
+    private javax.swing.JSpinner nodeAddMaxAmbulanceCapacity;
+    private javax.swing.JSpinner nodeAddMaxParamedicCapacity;
+    private javax.swing.JTextField nodeAddName;
+    private javax.swing.JComboBox<String> nodeAddType;
+    private javax.swing.JDialog nodeDeleteDialog;
+    private javax.swing.JComboBox<String> nodeDeleteNode;
+    private javax.swing.JSpinner paramedicAddAge;
+    private javax.swing.JDialog paramedicAddDialog;
+    private javax.swing.JFormattedTextField paramedicAddId;
+    private javax.swing.JTextField paramedicAddName;
+    private javax.swing.JComboBox<String> paramedicAddNode;
+    private javax.swing.JComboBox<String> paramedicAddRanking;
+    private javax.swing.JDialog paramedicModifyDialog;
+    private javax.swing.JComboBox<String> paramedicModifyNode;
+    private javax.swing.JComboBox<String> paramedicModifyThis;
     // End of variables declaration//GEN-END:variables
 }

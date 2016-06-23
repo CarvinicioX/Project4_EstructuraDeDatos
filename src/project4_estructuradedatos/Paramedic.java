@@ -1,13 +1,16 @@
 package project4_estructuradedatos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Vinicio
  */
-public class Paramedic {
+public class Paramedic implements Serializable {
 
     private String name = "", id = "", ranking = "";
     private int age = 0;
+    private boolean available = true;
 
     public Paramedic(String name, String id, String ranking, int age) {
         this.name = name;
@@ -46,5 +49,13 @@ public class Paramedic {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void work(boolean available) {
+        this.available = available;
+    }
+
+    public boolean isWorking() {
+        return available;
     }
 }
